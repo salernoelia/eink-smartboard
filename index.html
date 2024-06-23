@@ -135,7 +135,7 @@
         var xhr = new XMLHttpRequest();
         xhr.open(
           "GET",
-          "http://transport.opendata.ch/v1/stationboard?station=Zürich+Morgental&limit=12",
+          "http://transport.opendata.ch/v1/stationboard?station=Zürich+Morgental&limit=20",
           true
         );
         xhr.onload = function () {
@@ -145,9 +145,19 @@
             var html = "";
             for (var i = 0; i < departures.length; i++) {
               var destination = departures[i].to.replace("Zürich, ", "");
+
+              if (destination == "Zürich Wollishofen, Bahnhof") {
+                destination = "Bahnhof Wollishofen";
+              }
+
+              if (destination == "Stettbach, Bahnhof") {
+                destination = "Bahnhof Stettbach";
+              }
               if (
                 destination !== "Adliswil, Bahnhof" &&
-                destination !== "Neubühl"
+                destination !== "Neubühl" &&
+                destination !== "Wollishoferplatz" &&
+                destination !== "Kilchberg ZH, Kirche"
               ) {
                 html +=
                   "<tr>" +
