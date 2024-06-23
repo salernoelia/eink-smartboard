@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wetteranzeige für Zürich</title>
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .weather-container {
+        background: #fff;
+        padding: 20px;
+        text-align: center;
+      }
+      .weather-icon {
+        width: 300px;
+        height: 300px;
+      }
+
+      h1 {
+        font-size: 48px;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      setTimeout(function () {
+        window.location.href = "/index.html";
+      }, 3000);
+    </script>
+    <div class="weather-container">
+      <h1>Wetter heute in Zürich</h1>
+      <img id="weather-icon" class="weather-icon" src="" alt="Wetter Symbol" />
+      <h1 id="temperature"></h1>
+      <h2>SNIBS YOU FOREVER MY IGGI</h2>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var xhr = new XMLHttpRequest();
+        var url =
+          "https://api.allorigins.win/get?url=" +
+          encodeURIComponent(
+            "https://www.meteoschweiz.admin.ch/product/output/weather-widget/forecast/version__20240623_1747/de/800100.json"
+          );
+
+        xhr.open("GET", url, true);
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === 4 && xhr.status === 200) {
+            var responseData = JSON.parse(xhr.responseText);
+            var weatherData = JSON.parse(responseData.contents).data;
+            if (weatherData && weatherData.current) {
+              var temperatureElement = document.getElementById("temperature");
+              var weatherIconElement = document.getElementById("weather-icon");
+
+              temperatureElement.textContent =
+                "Temperatur: " + weatherData.current.temperature + "°C";
+              weatherIconElement.src =
+                "assets/icons/" +
+                weatherData.current.weather_symbol_id +
+                ".svg";
+            } else {
+              console.error("Weather data not found in response.");
+            }
+          }
+        };
+        xhr.send();
+      });
+    </script>
+  </body>
+</html>
