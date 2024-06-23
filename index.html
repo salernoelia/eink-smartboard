@@ -5,14 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Station Board - Zürich Morgental</title>
     <link rel="stylesheet" href="styles.css" />
-    <!-- Include Polyfills -->
-    <script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/3.0.0/fetch.min.js"></script>
   </head>
   <body>
     <div class="board">
-      <h1>Abfahrten: Zürich Morgental</h1>
-      <h2 id="current-time"></h2>
+      <div class="header">
+        <h3>Abfahrten: Zürich Morgental</h3>
+        <h3 id="current-time"></h3>
+      </div>
       <table>
         <thead>
           <tr>
@@ -23,9 +22,7 @@
             <th>Plattform</th>
           </tr>
         </thead>
-        <tbody id="departures">
-          <!-- Departure rows will be inserted here by JavaScript -->
-        </tbody>
+        <tbody id="departures-body"></tbody>
       </table>
     </div>
     <script src="script.js"></script>
