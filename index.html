@@ -77,14 +77,16 @@
     </style>
   </head>
   <body>
-    <script>
-      setTimeout(function () {
-        window.location.href = "/weather.html";
-      }, 15000);
-    </script>
     <div class="board">
       <div class="header">
         <h3 id="current-time"></h3>
+        <img
+          id="weather-icon"
+          class="weather-icon"
+          src=""
+          alt="Wetter Symbol"
+        />
+        <h3 id="temperature"></h3>
       </div>
       <table>
         <thead>
@@ -186,6 +188,35 @@
         };
         xhr.send();
       }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        var xhr = new XMLHttpRequest();
+        var url =
+          "https://api.allorigins.win/get?url=" +
+          encodeURIComponent(
+            "https://www.meteoswiss.admin.ch/product/output/weather-pill/version__20240624_0624/en/800100.json"
+          );
+
+        xhr.open("GET", url, true);
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === 4 && xhr.status === 200) {
+            var responseData = JSON.parse(xhr.responseText);
+            var weatherData = JSON.parse(responseData.contents);
+            console.log(weatherData);
+
+            var tempLow = weatherData.temp_low;
+            var tempHigh = weatherData.temp_high;
+            var weatherSymbolId = weatherData.weather_symbol_id;
+
+            var temperatureElement = document.getElementById("temperature");
+            var weatherIconElement = document.getElementById("weather-icon");
+
+            temperatureElement.textContent = ` ${tempLow}° / ${tempHigh}°`;
+            weatherIconElement.src = `assets/icons/${weatherSymbolId}.svg`;
+          }
+        };
+        xhr.send();
+      });
 
       setInterval(updateTime, 1000);
       fetchDepartures();
