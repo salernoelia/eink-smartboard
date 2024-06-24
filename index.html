@@ -74,6 +74,11 @@
         margin: 0;
         font-size: 48px;
       }
+
+      .weather-icon {
+        width: 100px;
+        height: 100px;
+      }
     </style>
   </head>
   <body>
@@ -90,12 +95,7 @@
       </div>
       <table>
         <thead>
-          <tr>
-            <th>N</th>
-            <th>Kat</th>
-            <th>Richtung</th>
-            <th class="right-align">Fahrt</th>
-          </tr>
+          <tr></tr>
         </thead>
         <tbody id="departures-body"></tbody>
       </table>
@@ -109,7 +109,7 @@
         currentTimeElement.textContent = new Date().toLocaleString([], {
           year: "numeric",
           month: "long",
-          day: "numeric",
+          day: "numeric ",
           hour: "2-digit",
           minute: "2-digit",
           second: "2-digit",
@@ -189,37 +189,49 @@
         xhr.send();
       }
 
-      document.addEventListener("DOMContentLoaded", function () {
-        var xhr = new XMLHttpRequest();
-        var url =
-          "https://api.allorigins.win/get?url=" +
-          encodeURIComponent(
-            "https://www.meteoswiss.admin.ch/product/output/weather-pill/version__20240624_0624/en/800100.json"
-          );
+      function fetchWeather() {
+        document.addEventListener("DOMContentLoaded", function () {
+          var xhr = new XMLHttpRequest();
+          var url =
+            "https://api.allorigins.win/get?url=" +
+            encodeURIComponent(
+              "https://www.meteoswiss.admin.ch/product/output/weather-pill/version__20240624_0624/en/800100.json"
+            );
 
-        xhr.open("GET", url, true);
-        xhr.onreadystatechange = function () {
-          if (xhr.readyState === 4 && xhr.status === 200) {
-            var responseData = JSON.parse(xhr.responseText);
-            var weatherData = JSON.parse(responseData.contents);
-            console.log(weatherData);
+          xhr.open("GET", url, true);
+          xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+              var responseData = JSON.parse(xhr.responseText);
+              var weatherData = JSON.parse(responseData.contents);
+              console.log(weatherData);
 
-            var tempLow = weatherData.temp_low;
-            var tempHigh = weatherData.temp_high;
-            var weatherSymbolId = weatherData.weather_symbol_id;
+              var tempLow = weatherData.temp_low;
+              var tempHigh = weatherData.temp_high;
+              var weatherSymbolId = weatherData.weather_symbol_id;
 
-            var temperatureElement = document.getElementById("temperature");
-            var weatherIconElement = document.getElementById("weather-icon");
+              var temperatureElement = document.getElementById("temperature");
+              var weatherIconElement = document.getElementById("weather-icon");
 
-            temperatureElement.textContent = ` ${tempLow}° / ${tempHigh}°`;
-            weatherIconElement.src = `assets/icons/${weatherSymbolId}.svg`;
-          }
-        };
-        xhr.send();
-      });
+              if (temperatureElement !== null) {
+                temperatureElement.textContent =
+                  tempLow + "°/" + tempHigh + "°";
+              }
+              if (weatherIconElement !== null) {
+                weatherIconElement.src =
+                  "assets/icons/" + weatherSymbolId + ".svg";
+              }
+            }
+          };
+          xhr.send();
+        });
+      }
 
       setInterval(updateTime, 1000);
+      setInterval(fetchDepartures, 10000);
+      setInterval(fetchWeather, 3600000);
+
       fetchDepartures();
+      fetchWeather();
     </script>
   </body>
 </html>
