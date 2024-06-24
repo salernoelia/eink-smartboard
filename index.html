@@ -62,7 +62,7 @@
 
       .header {
         display: flex;
-        justify-content: center;
+        justify-content: space-between;
         align-items: center;
       }
 
@@ -79,12 +79,18 @@
         width: 100px;
         height: 100px;
       }
+
+      .timeContainer {
+        width: 50%;
+      }
     </style>
   </head>
   <body>
     <div class="board">
       <div class="header">
-        <h3 id="current-time"></h3>
+        <div class="timeContainer">
+          <h3 id="current-time"></h3>
+        </div>
         <img
           id="weather-icon"
           class="weather-icon"
@@ -109,7 +115,7 @@
         currentTimeElement.textContent = new Date().toLocaleString([], {
           year: "numeric",
           month: "long",
-          day: "numeric ",
+          day: "numeric",
           hour: "2-digit",
           minute: "2-digit",
           second: "2-digit",
