@@ -91,13 +91,13 @@
         <div class="timeContainer">
           <h3 id="current-time"></h3>
         </div>
-        <img
+        <!-- <img
           id="weather-icon"
           class="weather-icon"
           src=""
           alt="Wetter Symbol"
         />
-        <h3 id="temperature"></h3>
+        <h3 id="temperature"></h3> -->
       </div>
       <table>
         <thead>
@@ -164,7 +164,8 @@
               if (
                 destination !== "Adliswil, Bahnhof" &&
                 destination !== "Neubühl" &&
-                destination !== "Kilchberg ZH, Kirche"
+                destination !== "Kilchberg ZH, Kirche" &&
+                destination !== "Mittelleimbach" &&
               ) {
                 html +=
                   "<tr>" +
@@ -194,49 +195,49 @@
         xhr.send();
       }
 
-      function fetchWeather() {
-        document.addEventListener("DOMContentLoaded", function () {
-          var xhr = new XMLHttpRequest();
-          var url =
-            "https://api.allorigins.win/get?url=" +
-            encodeURIComponent(
-              "https://www.meteoswiss.admin.ch/product/output/weather-pill/version__20240624_0624/en/800100.json"
-            );
+      // function fetchWeather() {
+      //   document.addEventListener("DOMContentLoaded", function () {
+      //     var xhr = new XMLHttpRequest();
+      //     var url =
+      //       "https://api.allorigins.win/get?url=" +
+      //       encodeURIComponent(
+      //         "https://www.meteoswiss.admin.ch/product/output/weather-pill/version__20240624_0624/en/800100.json"
+      //       );
 
-          xhr.open("GET", url, true);
-          xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-              var responseData = JSON.parse(xhr.responseText);
-              var weatherData = JSON.parse(responseData.contents);
-              console.log(weatherData);
+      //     xhr.open("GET", url, true);
+      //     xhr.onreadystatechange = function () {
+      //       if (xhr.readyState === 4 && xhr.status === 200) {
+      //         var responseData = JSON.parse(xhr.responseText);
+      //         var weatherData = JSON.parse(responseData.contents);
+      //         console.log(weatherData);
 
-              var tempLow = weatherData.temp_low;
-              var tempHigh = weatherData.temp_high;
-              var weatherSymbolId = weatherData.weather_symbol_id;
+      //         var tempLow = weatherData.temp_low;
+      //         var tempHigh = weatherData.temp_high;
+      //         var weatherSymbolId = weatherData.weather_symbol_id;
 
-              var temperatureElement = document.getElementById("temperature");
-              var weatherIconElement = document.getElementById("weather-icon");
+      //         var temperatureElement = document.getElementById("temperature");
+      //         var weatherIconElement = document.getElementById("weather-icon");
 
-              if (temperatureElement !== null) {
-                temperatureElement.textContent =
-                  tempLow + "°/" + tempHigh + "°";
-              }
-              if (weatherIconElement !== null) {
-                weatherIconElement.src =
-                  "assets/icons/" + weatherSymbolId + ".svg";
-              }
-            }
-          };
-          xhr.send();
-        });
-      }
+      //         if (temperatureElement !== null) {
+      //           temperatureElement.textContent =
+      //             tempLow + "°/" + tempHigh + "°";
+      //         }
+      //         if (weatherIconElement !== null) {
+      //           weatherIconElement.src =
+      //             "assets/icons/" + weatherSymbolId + ".svg";
+      //         }
+      //       }
+      //     };
+      //     xhr.send();
+      //   });
+      // }
 
       setInterval(updateTime, 1000);
       setInterval(fetchDepartures, 10000);
-      setInterval(fetchWeather, 3600000);
+      // setInterval(fetchWeather, 3600000);
 
       fetchDepartures();
-      fetchWeather();
+      // fetchWeather();
     </script>
   </body>
 </html>
